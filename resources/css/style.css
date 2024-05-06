@@ -1,0 +1,26 @@
+.dropdown-menu{
+    margin-top: 137px;
+    margin-right: 50px;
+}
+
+.img-side {
+    width: 150px;
+    height: auto;
+}
+
+.form-empresas{
+    height: 1150px;
+}
+
+.table th, .table td{
+    @apply border border-gray-400 px-4 py-2;
+}
+
+.table th{
+    @apply text-gray-800;
+}
+
+.table tbody tr:nth-child(2n+1){
+    @apply bg-gray-200;
+}
+
