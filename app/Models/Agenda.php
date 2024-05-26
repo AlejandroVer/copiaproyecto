@@ -40,4 +40,9 @@ class Agenda extends Model
     {
         return $this->hasMany(Visita::class, 'agenda_id');
     }
+
+    public function sedeEmpresa()
+    {
+        return $this->belongsTo(SedeEmpresa::class, 'sede_empresa_id'); // 'sede_empresa_id' es la clave foránea en la tabla agendas
+    }
 }

@@ -10,11 +10,9 @@ use Illuminate\Validation\Rule;
 
 class SedeController extends Controller
 {
-    
-
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -48,8 +46,14 @@ class SedeController extends Controller
             'ciudad' => 'required',
             'geoubicacion' => 'required',
             'telefono' => 'required',
+            'estado' => 'required',
             'empresa_id' => 'required'
         ]);
+
+        $data = $request->all();
+        if (!isset($data['estado'])) {
+            $data['estado'] = 'Activa';
+        }
         
         $sedes = new SedeEmpresa($request->all());
 
@@ -73,7 +77,6 @@ class SedeController extends Controller
      */
     public function edit(SedeEmpresa $sedeEmpresa)
     {
-        //
     }
 
     /**

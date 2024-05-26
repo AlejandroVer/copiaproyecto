@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('informe');
             $table->datetime('fecha_reporte');
 
-            $table->foreignId('perfil_id')->constrained('perfil_user')->onDelete('cascade');
             $table->foreignId('area_id')->constrained('area_user')->onDelete('cascade');
 
 

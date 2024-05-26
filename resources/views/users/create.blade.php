@@ -1,6 +1,6 @@
 <x-app-layout>
     @include('layouts.content')
-    <section class=" bg-white dark:bg-gray-900 mx-5 overflow-auto form-empresas border rounded-b-lg">
+    <section class=" bg-white dark:bg-gray-900 mx-5 overflow-auto form-empresas border rounded-t-lg rounded-b-lg">
         <div class="bg-blue-700 h-14 flex items-center border rounded-t-lg">
             <h2 class="ml-5 mb-4 pt-4 text-xl  text-white dark:text-white"><i class="fa-solid fa-user mr-2 text-2xl"></i>Creación de Usuarios</h2>
         </div>
@@ -45,9 +45,9 @@
         @enderror
     </div>
     <div>
-        {!! Form::label('perfil', 'Perfil',['class' => 'block mb-2 text-sm font-medium text-blue-700 dark:text-white']) !!}
-        {!! Form::select('perfil', ['Admin Sistemas' => 'Admin Sistemas', 'Gerente' => 'Gerente', 'Jefe de area' => 'Jefe de area', 'Coor. Area' => 'Coor. Area', 'Asesor' => 'Asesor'], null, ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500']) !!}
-        @error('perfil')
+        {!! Form::label('role', 'Rol',['class' => 'block mb-2 text-sm font-medium text-blue-700 dark:text-white']) !!}
+        {!! Form::select('role', $roles->pluck('name', 'id'),null, ['class' => 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500']) !!}
+        @error('role')
         <span class="text-red-500 text-sm">{{$message}}</span>     
         @enderror
     </div>

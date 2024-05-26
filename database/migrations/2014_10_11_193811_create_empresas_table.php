@@ -16,11 +16,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('nit');
-            $table->string('telefono');
-            $table->string('direccion', 100);
-            $table->string('barrio', 45);
-            $table->string('ciudad', 45);
-            $table->string('celular', 45);
             $table->string('rep_legal',45);
             $table->string('cargo_rep_legal',45);
             $table->string('cel_rep_legal',);

@@ -1,7 +1,7 @@
 <x-app-layout>
     @include('layouts.content')
     
-    <section class="bg-white dark:bg-gray-900 mx-5 overflow-auto border rounded-b-lg">
+    <section class="bg-white dark:bg-gray-900 mx-5 overflow-auto border rounded-t-lg rounded-b-lg">
         <div class="bg-blue-700 h-14 flex items-center border rounded-t-lg">
             <h2 class="ml-5 mb-4 pt-4 text-xl  text-white dark:text-white"><i class="fa-solid fa-pen mr-2"></i>Agendamiento de Visitas</h2>
         </div>
@@ -12,7 +12,7 @@
         @endif
     <form class="max-w-lg mx-auto my-5" id="formulario_busqueda" action="{{ route('agendas.create') }}" method="GET">
         <div class="flex justify-center">
-            <div class="relative w-80 md:w-full lg:w-full border">
+            <div class="relative w-80 md:w-full lg:w-full border rounded-e-lg ">
                 <input type="search" id="search-dropdown" name="query" value="{{$query}}" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Ingrese NIT o Nombre de Empresa" required />
                 <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -83,11 +83,11 @@
                     {{$empresa->barrio}}
                 </td>
                 <td class="px-6 py-4">
-                    {{$empresa->geoubicacion}}
+                    <a class="text-green-700" href="https://www.google.com/maps/search/?api=1&query={{$empresa->geoubicacion}}" target="_blank">Ver mapa</a>
                 </td>
                 
                 <td class="px-6 py-4">
-                    <button onclick="seleccionarEmpresa('{{ $empresa->name }}', '{{$empresa->nombre_sede}}', '{{ $empresa->direccion }}', '{{ $empresa->barrio }}', '{{ $empresa->ciudad }}', '{{ $empresa->telefono }}', '{{$empresa->id}}')">Seleccionar</button>
+                    <button class="text-blue-700" onclick="seleccionarEmpresa('{{ $empresa->name }}', '{{$empresa->nombre_sede}}', '{{ $empresa->direccion }}', '{{ $empresa->barrio }}', '{{ $empresa->ciudad }}', '{{ $empresa->telefono }}', '{{ $empresa->id }}', '{{ $empresa->sede_empresa_id }}')">Seleccionar</button>
                 </td>
                 
             </tr>
@@ -168,7 +168,8 @@
             <span class="text-red-500 text-sm">{{$message}}</span>     
             @enderror
         </div>
-        {!! Form::hidden('empresa_id', "", array('id' => 'empresa_id')) !!}
+        {!! Form::hidden('empresa_id', "", ['id' => 'empresa_id']) !!}
+        {!! Form::hidden('sede_empresa_id', "", ['id' => 'sede_empresa_id']) !!}
         {!! Form::submit('Agendar Visita', ['class' => 'inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800']) !!}
                 
         {!! Form::close() !!}
@@ -178,14 +179,15 @@
 </section>
 
 <script>
-    function seleccionarEmpresa(name, nombre_sede, direccion, barrio, ciudad, telefono, id) {
+    function seleccionarEmpresa(name, nombre_sede, direccion, barrio, ciudad, telefono, empresa_id, sede_empresa_id) {
         document.getElementById('name').value = name;
         document.getElementById('sede').value = nombre_sede;
         document.getElementById('direccion').value = direccion;
         document.getElementById('barrio').value = barrio;
         document.getElementById('ciudad').value = ciudad;
         document.getElementById('telefono').value = telefono;
-        document.getElementById('empresa_id').value = id;
+        document.getElementById('empresa_id').value = empresa_id; // Correcto
+        document.getElementById('sede_empresa_id').value = sede_empresa_id;
 
     }
     setTimeout(function() {

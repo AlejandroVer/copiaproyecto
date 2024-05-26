@@ -11,10 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perfiles', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('sedes_empresas', function (Blueprint $table) {
+            $table->string('estado')->after('telefono');
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('perfiles');
+        Schema::table('sedes_empresas', function (Blueprint $table) {
+            //
+        });
     }
 };

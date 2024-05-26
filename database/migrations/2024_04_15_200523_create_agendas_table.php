@@ -21,10 +21,15 @@ return new class extends Migration
             $table->date('fecha_cita', 45);
             $table->time('hora_cita', 6);
             $table->text('objetivo_visita', 1000);
-            $table->text('estado', 45);
             $table->dateTime('agendada_el');
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+
+            $table->unsignedBigInteger('empresa_id')->nullable();
+            $table->foreign('empresa_id')->after('user_id')->references('id')->on('empresas')->onDelete('cascade');
+
+            $table->unsignedBigInteger('sede_empresa_id');
+            $table->foreign('sede_empresa_id')->references('id')->on('sedes_empresas')->onDelete('cascade');
 
 
             $table->timestamps();

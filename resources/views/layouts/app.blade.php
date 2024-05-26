@@ -36,6 +36,7 @@
     <div class="lg:hidden" x-show="open" x-on:click.away="open = false">
         <div class="px-2 pt-2 pb-3 space-y-1 flex flex-col">
             <a class="hover:text-gray-300" href="{{route('agendas.create')}}"><i class="fa-regular fa-calendar pr-3 text-2xl icon-side mt-2 hover:text-gray-500"></i>Agendar Visita</a>
+            <a class="hover:text-gray-300" href="{{route('agendas.index')}}"><i class="fa-regular fa-calendar-days pr-3 text-2xl icon-side mt-2 hover:text-gray-500"></i>Agenda</a>
             <a class="hover:text-gray-300" href="{{route('empresa.create')}}"><i class="fa-regular fa-building pr-3 text-2xl icon-side mt-2 hover:text-gray-500"></i>Crear Empresa</a>
             <a class="hover:text-gray-300" href="{{route('sedes.create')}}"><i class="fa-solid fa-landmark pr-3 text-2xl icon-side mt-2 hover:text-gray-500"></i>Crear Sede</a>
             <a class="hover:text-gray-300" href="{{route('empresa.index')}}"><i class="fa-solid fa-pen-to-square pr-3 text-2xl icon-side mt-2 hover:text-gray-500"></i>Actualizar Empresa</a>
@@ -63,15 +64,36 @@
             <div class="border-t mt-5 border-gray-400 opacity-25"></div>   
             <div class="  py-2 px-4">
                 <ul class="mt-2">
-                    <li class="mb-6 hidden lg:block"><a href="{{route('agendas.create')}}" class="hover:text-gray-300"><i class="fa-regular fa-calendar pr-3  text-2xl icon-side"></i>Agendar Visita</a></li>
-                    <li class="mb-6 hidden lg:block"><a href="{{route('empresa.create')}}" class="hover:text-gray-300"><i class="fa-regular fa-building pr-3  text-2xl icon-side"></i>Crear Empresa</a></li>
-                    <li class="mb-6 hidden lg:block"><a  href="{{route('sedes.create')}}" class="hover:text-gray-300"><i class="fa-solid fa-landmark pr-3 text-2xl icon-side hover:text-gray-500"></i>Crear Sede</a></li>
+                    @can('agendas.create')
+                    <li class="mb-6 hidden lg:block"><a href="{{route('agendas.create')}}" class="hover:text-gray-300"><i class="fa-regular fa-calendar pr-3  text-2xl icon-side"></i>Agendar Visita</a></li>    
+                    @endcan
+                    @can('agendas.index')
+                    <li class="mb-6 hidden lg:block"><a href="{{route('agendas.index')}}" class="hover:text-gray-300"><i class="fa-regular fa-calendar-days pr-3  text-2xl icon-side"></i>Agenda</a></li>
+                    @endcan
+                    @can('empresa.create')
+                    <li class="mb-6 hidden lg:block"><a href="{{route('empresa.create')}}" class="hover:text-gray-300"><i class="fa-regular fa-building pr-3  text-2xl icon-side"></i>Crear Empresa</a></li> 
+                    @endcan
+                    @can('sedes.create')
+                    <li class="mb-6 hidden lg:block"><a href="{{route('sedes.create')}}" class="hover:text-gray-300"><i class="fa-solid fa-landmark pr-3 text-2xl icon-side hover:text-gray-500"></i>Crear Sede</a></li>
+                    @endcan
+                    @can('empresa.index')
                     <li class="mb-6 hidden lg:block"><a href="{{route('empresa.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-pen-to-square pr-3  text-2xl icon-side"></i>Actualizar Empresa</a></li>
+                    @endcan
+                    @can('agendas.create')
                     <li class="mb-6 lg:hidden"><a href="{{route('agendas.create')}}" class="hover:text-gray-300"><i class="fa-regular fa-calendar  text-2xl icon-side"></i></a></li>
-                    <li class="mb-6 lg:hidden"><a href="{{route('empresa.create')}}" class="hover:text-gray-300"><i class="fa-regular fa-building  text-2xl icon-side"></i></a></li>
+                    @endcan
+                    @can('agendas.index')
+                    <li class="mb-6 lg:hidden"><a href="{{route('agendas.index')}}" class="hover:text-gray-300"><i class="fa-regular fa-calendar pr-3  text-2xl icon-side"></i></a></li>
+                    @endcan
+                   @can('empresa.create')
+                   <li class="mb-6 lg:hidden"><a href="{{route('empresa.create')}}" class="hover:text-gray-300"><i class="fa-regular fa-building  text-2xl icon-side"></i></a></li>  
+                   @endcan
+                    @can('sedes.create')
                     <li class="mb-6 lg:hidden"><a href="{{route('sedes.create')}}" class="hover:text-gray-300"><i class="fa-solid fa-landmark  text-2xl icon-side"></i></a></li>
+                    @endcan
+                    @can('empresa.index')
                     <li class="mb-6 lg:hidden"><a href="{{route('empresa.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-pen-to-square text-2xl icon-side"></i></a></li>
-                    
+                    @endcan
                 </ul>
             </div>
             <!-- Línea divisoria -->
@@ -79,15 +101,27 @@
             <!-- Sección 2 -->
             <div class="py-2 px-4">
                 <ul class="mt-2 items-center">
+                    @can('users.create')
                     <li class="mb-6 hidden lg:block"><a href="{{route('users.create')}}" class="hover:text-gray-300"><i class="fa-solid fa-user pr-3 text-2xl icon-side"></i>Creación Usuarios</a></li>
-                    <li class="mb-6  hidden  lg:block"><a href="{{route('users.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-circle-user pr-3 text-2xl icon-side"></i>Usuarios</a></li>
-                    <li class="mb-6 hidden lg:block"><a href="{{route('reportes.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-calendar-days pr-3 text-2xl icon-side"></i>Reportes</a></li>
+                    @endcan
+                    @can('users.index')
+                    <li class="mb-6  hidden lg:block"><a href="{{route('users.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-circle-user pr-3 text-2xl icon-side"></i>Usuarios</a></li>
+                    @endcan
+                    @can('reportes.index')
+                    <li class="mb-6 hidden lg:block"><a href="{{route('reportes.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-flag-checkered pr-3 text-2xl icon-side"></i>Reportes</a></li>
+                    @endcan
+                    @can('users.create')
                     <li class="mb-6 lg:hidden"><a href="{{route('users.create')}}" class="hover:text-gray-300"><i class="fa-solid  fa-user text-2xl icon-side"></i></a></li>
+                    @endcan
+                    @can('users.index')
                     <li class="mb-6 lg:hidden"><a href="{{route('users.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-circle-user text-2xl icon-side"></i></a></li>
-                    <li class="mb-6 lg:hidden"><a href="{{route('reportes.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-calendar-days text-2xl icon-side"></i></a></li>
+                    @endcan
+                   @can('reportes.index')
+                   <li class="mb-6 lg:hidden"><a href="{{route('reportes.index')}}" class="hover:text-gray-300"><i class="fa-solid fa-calendar-days text-2xl icon-side"></i></a></li>
+                   @endcan
+                    
                 </ul>
             </div>
-            <!-- Línea divisoria -->
             <div class="border-t border-gray-400 opacity-25"></div>
             <!-- Sección 3 -->
             

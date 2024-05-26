@@ -1,18 +1,13 @@
 <x-app-layout>
     @include('layouts.content')
     
-    <section class="bg-white dark:bg-gray-900 mx-5 overflow-auto border rounded-b-lg">
-        @if (session('update_user'))
-        <div id="alertMessage" class="p-4 my-2 mx-5 mb-4 text-sm text-blue-700 border rounded-b-lg bg-blue-200 dark:bg-gray-800 dark:text-blue-400" role="alert">
-            <span class="font-medium">{{(session('update_user'))}}</span>
-        </div>
-        @endif
+    <section class="bg-white dark:bg-gray-900 mx-5 overflow-auto border rounded-t-lg rounded-b-lg">
         <div class="bg-blue-700 h-14 flex items-center border rounded-t-lg">
             <h2 class="ml-5 mb-4 pt-4 text-xl  text-white dark:text-white"><i class="fa-solid fa-circle-user mr-2"></i>Usuarios</h2>
         </div>
     <form class="max-w-lg mx-auto my-5" action="{{ route('users.index') }}" method="GET">
         <div class="flex justify-center">
-            <div class="relative w-80 md:w-full lg:w-full border">
+            <div class="relative w-80 md:w-full lg:w-full border rounded-e-lg">
                 <input type="search" id="search-dropdown" name="query" value="{{$query}}" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Ingrese Identificación o nombre del usuario" required />
                 <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -23,6 +18,11 @@
             </div>
         </div>
     </form>
+    @if (session('update_user'))
+        <div id="alertMessage" class="p-4 my-2 mx-5 mb-4 text-sm text-blue-700 border rounded-b-lg rounded-t-lg bg-blue-200 dark:bg-gray-800 dark:text-blue-400" role="alert">
+            <span class="font-medium">{{(session('update_user'))}}</span>
+        </div>
+    @endif
     @if (!empty($query))
         <div class="max-w-lg ml-5 my-5">
             <a href="{{ URL::previous() }}" class="bg-blue-700 hover:bg-blue-800 text-white  text-sm py-2 px-4 rounded">Volver</a>
@@ -73,13 +73,13 @@
                     </td>
                     </td>
                     <td class="px-6 py-4">
-                        @foreach ($user->perfiles as $perfil)
-                            {{ $perfil->name }} {{-- Suponiendo que 'nombre' es el atributo para el nombre del perfil --}}
+                        @foreach ($user->roles as $role)
+                            {{ $role->name }}
                         @endforeach
                     </td>
                     <td class="px-6 py-4">
                         @foreach ($user->areas as $area)
-                            {{ $area->name }} {{-- Suponiendo que 'nombre' es el atributo para el nombre del área --}}
+                            {{ $area->name }} 
                         @endforeach
                     </td>
                     <td class="">

@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\SedeController;
 use App\Http\Controllers\VisitaController;
+use App\Http\Controllers\AsignarRolesController;
 use App\Models\SedeEmpresa;
 use Illuminate\Support\Facades\Route;
 
@@ -23,10 +24,10 @@ Route::get('/', function () {
     return view('auth.login');
 });
 
-Route::resource('empresa', EmpresaController::class)->names('empresa');
+Route::resource('empresa', EmpresaController::class)->except('show')->names('empresa');
 
 
-Route::resource('users', UserController::class)->names('users');
+Route::resource('users', UserController::class)->except('show')->names('users');
 
 Route::resource('agendas', AgendaController::class)->names('agendas');
 
@@ -34,10 +35,10 @@ Route::resource('reportes', VisitaController::class)->names('reportes');
 
 Route::resource('sedes', SedeController::class)->names('sedes');
 
-Route::get('/obtener-datos-sede/{id}', function ($id) {
-    $sede = SedeEmpresa::find($id);
-    return response()->json($sede);
-});
+Route::get('/obtener-informacion-sede', [EmpresaController::class, 'obtenerInformacionSede'])->name('obtener_informacion_sede');
+
+Route::post('/asignar-rol', [AsignarRolesController::class, 'asignar'])->name('asignar.rol');
+
 
 
 
