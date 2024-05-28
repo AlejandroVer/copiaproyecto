@@ -8,6 +8,7 @@ use App\Http\Controllers\VisitaController;
 use App\Http\Controllers\AsignarRolesController;
 use App\Models\SedeEmpresa;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +23,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('auth.login');
-});
+})->name('login');
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
 Route::resource('empresa', EmpresaController::class)->except('show')->names('empresa');
 

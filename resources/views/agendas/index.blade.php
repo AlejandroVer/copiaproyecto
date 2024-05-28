@@ -59,7 +59,7 @@
                                         $geoubicacion = $agenda->sedeEmpresa->geoubicacion;
                                         $geoubicacionUrl = str_replace(' ', '', $geoubicacion);
                                     @endphp
-                                    <a class="text-green-700" href="https://www.google.com/maps/search/?api      =1&query={{ $geoubicacionUrl }}" target="_blank">Ver mapa</a>
+                                    <a class="text-green-700" href="https://www.google.com/maps/search/?api=1&query={{ $geoubicacionUrl }}" target="_blank">Ver mapa</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -73,29 +73,74 @@
 </section>   
 
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH0YQciQm1UWewgAW8uP6ChxLa3MksHXU&callback=initMap"></script>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH0YQciQm1UWewgAW8uP6ChxLa3MksHXU&callback=initMap"></script>
 <script>
 
-    var link = document.querySelector('.text-green-700');
-    var geoubicacionUrl = link.getAttribute('href');
-    
-    var regex = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
-    var match = geoubicacionUrl.match(regex);
-    var lat = parseFloat(match[1]);
-    var lng = parseFloat(match[2]);
+    var map;
+    var markers = [];
 
-    function initMap() {
-        var coord = { lat: lat, lng: lng };
-        var map = new google.maps.Map(document.getElementById('map-container'), {
-            center: coord,
-            zoom: 15 
+    function initMap(){
+        map = new google.maps.Map(document.getElementById('map-container'), {
+            zoom: 14,
+            center: {lat: 4.134282, lng: -73.637742}
         });
-        var marker = new google.maps.Marker({
-            position: coord,
-            map: map
+
+        var sedeCoordinates = {!! json_encode($sedeCoordinates) !!};
+        addMarkers(sedeCoordinates);
+    }
+
+    function addMarkers(sedeCoordinates) {
+        clearMarkers();
+        sedeCoordinates.forEach(function(coordinate){
+            var parts = coordinate.split(',');
+            var lat = parseFloat(parts[0]);
+            var lng = parseFloat(parts[1]);
+
+            var marker = new google.maps.Marker({
+                position: {lat: lat, lng: lng},
+                map: map
+            });
+            markers.push(marker);
         });
+
+        if (sedeCoordinates.length > 0) {
+            var parts = sedeCoordinates[0].split(',');
+            var lat = parseFloat(parts[0]);
+            var lng = parseFloat(parts[1]);
+            map.setCenter({lat: lat, lng: lng});         
+        }
+    }
+
+    function clearMarkers() {
+        markers.forEach(function(marker) {
+            marker.setMap(null);
+        });
+        markers = [];   
+    }
+
+    document.getElementById('searchForm').addEventListenner('submit', function(event){
+        event.preventDefault();
+
+        var formData = new FormData(this);
+        var searchParams = new URLSearchParams(formData).toString();    
+
+        fetch('{{ route("agendas.index") }}?' + searchParams)
+        .then(response => response.json())
+        .then(data => {
+            updateTable(data.agendas);
+            updateMap(data.sedeCoordinates);
+        });
+    });
+
+    function updateTable(agendas) {
+
+    }
+
+    function updateMap(sedeCoordinates) {
+        addMarkers(sedeCoordinates);
     }
     
-    initMap();
 </script>
 
 </x-app-layout>

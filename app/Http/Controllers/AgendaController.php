@@ -29,7 +29,15 @@ class AgendaController extends Controller
             ->whereDate('fecha_cita', $fechaCita)
             ->with('sedeEmpresa') 
             ->paginate(10);
-            return view('agendas.index', compact('agendas'));
+
+            $sedeCoordinates = $agendas->map(function ($agenda) {
+                return $agenda->sedeEmpresa->geoubicacion;
+            })->toArray();
+
+            $centerCoordinate = count($sedeCoordinates) > 0 ? $sedeCoordinates[0] : '4.134282,-73.637742';
+
+            
+            return view('agendas.index', compact('agendas','sedeCoordinates'));
     }
 
     /**

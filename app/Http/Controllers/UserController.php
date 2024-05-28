@@ -121,15 +121,14 @@ class UserController extends Controller
 
         $data = $request->all();
 
-        // Actualizar la sede del usuario
+        
         $user->sede_id = $data['sede'];
             
         $areaId = Area::where('name', $data['area'])->value('id');
 
-    // Sincronizar relaciones área
+    
         $user->areas()->sync   ([$areaId]);
 
-    // Actualizar el usuario con los otros datos
         unset($data['role'], $data['area'], $data['sede']);
         
         if(isset($data['password'])){
