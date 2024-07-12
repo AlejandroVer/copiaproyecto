@@ -10,6 +10,12 @@ use Illuminate\Validation\Rule;
 
 class SedeController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:sedes.create')->only('create');
+        
+    }
     public function index()
     {
         

@@ -11,9 +11,13 @@ use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
+    public function __construct()
+    {
+        $this->middleware('can:agendas.index')->only('index');
+        $this->middleware('can:agendas.create')->only('create');
+    }
+
     public function index(Request $request)
     {
         

@@ -11,10 +11,20 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\Log;
+use App\Exports\EmpresasExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\EmpresasExportCreate;
 
 
 class EmpresaController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('can:empresa.index')->only('index');
+        $this->middleware('can:empresa.create')->only('create');
+        $this->middleware('can:empresa.edit')->only('edit', 'update');
+    }
 
     public function obtenerInformacionSede(Request $request)
     {
@@ -143,6 +153,11 @@ class EmpresaController extends Controller
             return redirect()->route('empresa.create')->with('info', 'La empresa y sede se crearon con éxito');
     }
 
+    public function exportEmpresasCreate(Request $request)
+    {
+        $search = $request->input('search'); 
+        return Excel::download(new EmpresasExportCreate($search), 'empresas.xlsx');
+    }
     public function edit($id)
     {
         $empresa = Empresa::findOrFail($id);
@@ -212,5 +227,10 @@ class EmpresaController extends Controller
         $empresa=Empresa::findOrFail($id);
         $empresa->delete();
         return redirect()->route('empresa.index')->with('info', 'La empresa se eliminó con éxito');  
+    }
+
+    public function exportarEmpresas()
+    {
+        return Excel::download(new EmpresasExport, 'empresas.xlsx');
     }
 }

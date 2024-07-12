@@ -96,8 +96,8 @@ class User extends Authenticatable
         return $this->hasMany(Agenda::class);
     }
 
-    public function perfiles()
+        public function roles()
     {
-        return $this->belongsToMany(Perfil::class, 'perfil_user', 'user_id', 'perfil_id');
+        return $this->belongsToMany(Role::class);
     }
 }

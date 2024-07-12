@@ -10,10 +10,24 @@ use App\Models\SedeNmvCliente;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
-    
+
+    public function exportUsers(Request $request)
+    {
+        $nmv_cliente_id = $request->query('nmv_cliente_id');
+
+        return Excel::download(new UsersExport($nmv_cliente_id), 'users.xlsx');
+    }
+   
+    public function __construct()
+    {
+        $this->middleware('can:users.index')->only('index');
+        $this->middleware('can:users.edit')->only('edit', 'update');
+    }
     
     public function index(Request $request)
     {

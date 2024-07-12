@@ -19,12 +19,6 @@
         </div>
     </form>
 
-    @if (!empty($query))
-        <div class="max-w-lg ml-5 my-5">
-            <a href="{{ URL::previous() }}" class="bg-blue-700 hover:bg-blue-800 text-white  text-sm py-2 px-4 rounded">Volver</a>
-        </div>
-    @endif
-
     @if (session('info'))
     <div id="alertMessage" class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
         <span class="font-medium">{{(session('info'))}}</span>
@@ -32,6 +26,9 @@
     @endif  
 
 {{-- @if ($query != '') --}}
+<div class="max-w-lg ml-5 my-5">
+    <a href="{{ route('empresas.export') }}" class="bg-green-700 hover:bg-green-800 text-white text-sm py-2 px-4 rounded">Exportar a Excel</a>
+</div>
 <div class="relative overflow-x-auto">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -105,6 +102,7 @@
     </table>
     {{$empresas->links()}}
 </div>
+
 {{-- @endif --}}
       
     </section>

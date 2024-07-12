@@ -9,6 +9,8 @@ use App\Http\Controllers\AsignarRolesController;
 use App\Models\SedeEmpresa;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthenticatedSessionController;
+use App\Exports\EmpresasExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +23,13 @@ use App\Http\Controllers\AuthenticatedSessionController;
 |
 */
 
-Route::get('/', function () {
+/* Route::get('/', function () {
     return view('auth.login');
-})->name('login');
+})->name('login'); */
+
+Route::get('/', function () {
+    return redirect()->route('login');
+})->name('web.home.index');
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
@@ -32,15 +38,24 @@ Route::resource('empresa', EmpresaController::class)->except('show')->names('emp
 
 Route::resource('users', UserController::class)->except('show')->names('users');
 
-Route::resource('agendas', AgendaController::class)->names('agendas');
+Route::resource('agendas', AgendaController::class)->except('show')->names('agendas');
 
-Route::resource('reportes', VisitaController::class)->names('reportes');
+Route::get('agendas/export', [AgendaController::class, 'export'])->name('agendas.export');
 
-Route::resource('sedes', SedeController::class)->names('sedes');
+Route::resource('reportes', VisitaController::class)->except('show')->names('reportes');
+
+Route::resource('sedes', SedeController::class)->except('show','edit','index')->names('sedes');
 
 Route::get('/obtener-informacion-sede', [EmpresaController::class, 'obtenerInformacionSede'])->name('obtener_informacion_sede');
 
 Route::post('/asignar-rol', [AsignarRolesController::class, 'asignar'])->name('asignar.rol');
+
+Route::get('/exportar-empresas', [EmpresaController::class, 'exportarEmpresas'])->name('empresas.export');
+
+Route::get('/empresas/export-create', [EmpresaController::class, 'exportEmpresasCreate'])->name('empresas.export.create');
+
+Route::get('users/export', [UserController::class, 'exportUsers'])->name('users.export');
+
 
 
 

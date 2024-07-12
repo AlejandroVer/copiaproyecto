@@ -6,41 +6,46 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Traits\HasRoles;
 
 class AuthenticatedSessionController extends \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController
 {
-    protected function authenticated(Request $request, $user)
+    public function store(Request $request)
     {
+
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required',
+        ]);
+
+        
+
+        if (!Auth::attempt(['username' => $request->username, 'password' => $request->password], $request->filled('remember'))) {
+            throw ValidationException::withMessages([
+                'username' => [trans('auth.failed')],
+            ]);
+        }
+
+        $request->session()->regenerate();
+
+        // Redirigir según el rol del usuario
+        $user = Auth::user();
+
         if ($user->hasRole('Gerente')) {
             return redirect()->route('reportes.index');
         } elseif ($user->hasRole('Admin Sistemas')) {
             return redirect()->route('users.index');
         } elseif ($user->hasRole('Jefe de Area')) {
-            return redirect()->route('empresas.index');
+            return redirect()->route('empresa.index');
         } elseif ($user->hasRole('Coor. Area')) {
-            return redirect()->route('empresas.index');
+            return redirect()->route('empresa.index');
         } elseif ($user->hasRole('Asesor')) {
-            return redirect()->route('agendas.index');
+            return redirect()->route('agendas.create');
         }
 
         return redirect()->route('agendas.index');
-    }
 
-    public function store(Request $request)
-    {
-        // Lógica de autenticación estándar de Fortify
-        $this->validateLogin($request);
-
-        if (method_exists($this, 'ensureIsNotRateLimited')) {
-            $this->ensureIsNotRateLimited($request);
-        }
-
-        if (method_exists($this, 'attemptLogin')) {
-            if (! $this->attemptLogin($request)) {
-                return $this->sendFailedLoginResponse($request);
-            }
-        }
-
-        return $this->sendLoginResponse($request);
+        // return redirect()->intended('/dashboard'); //No se donde quieras este
     }
 }

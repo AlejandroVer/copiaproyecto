@@ -34,6 +34,9 @@
     </style>
     
     @if ($query != '')
+    <div class="max-w-lg ml-5 my-5">
+        <a href="{{ route('empresas.export.create', ['search' => request('search')]) }}" class="bg-green-700 hover:bg-green-800 text-white text-sm py-2 px-4 rounded">Exportar a Excel</a>
+    </div>
     <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
